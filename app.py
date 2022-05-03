@@ -16,6 +16,10 @@ conList = []
 con.row_factory = dict_factory
 cur = con.cursor()
 
+@app.route('/', methods=['GET'])
+def start():
+    return "Hello world!"
+
 
 @app.route('/recommendation', methods=['POST'])
 def index():
