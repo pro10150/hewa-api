@@ -10,6 +10,7 @@ WORKDIR /app
 # Copy the dependencies file to the working directory
 COPY requirements.txt .
 COPY recommendation.py .
+COPY Hewa.db .
 
 # Install any dependencies
 RUN pip install -r requirements.txt

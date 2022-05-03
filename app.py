@@ -45,7 +45,7 @@ def get_recommendation():
 @app.route('/query', methods=['GET'])
 def comment_readlDataFromSQLite():
     data = request.args.get('query')
-    print(data)
+    # print(data)
     cur.execute(data)
     # print(cur.fetchone())
     # for row in cur.execute('SELECT * FROM menuTABLE'):
@@ -55,4 +55,4 @@ def comment_readlDataFromSQLite():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', threaded=True, port=6000, debug=True)
+    app.run(host='0.0.0.0', threaded=True, port=6000)
