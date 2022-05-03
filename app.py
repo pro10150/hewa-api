@@ -47,18 +47,27 @@ def get_recommendation():
     print(type(data))
     return jsonify
 
-@app.route('/query', methods=['GET'])
+@app.route('/query', methods=['POST'])
 def comment_readlDataFromSQLite():
     data = request.args.get('query')
+    jsonData = request.get_json()
+    print(tuple(jsonData))
     # print(data)
-    cur.execute(data)
+    cur.execute(data, tuple(jsonData))
     # print(cur.fetchone())
     # for row in cur.execute('SELECT * FROM menuTABLE'):
     #     conList.append(row)
     #     print(row)
     return jsonify(cur.fetchall())
 
+@app.route('/emptyQuery', methods=['POST'])
+def emptyQuery():
+    data = request.args.get("query")
+
+    cur.execute(data)
+
+    return jsonify(cur.fetchall())
 
 if __name__ == "__main__":
     port = os.environ.get("PORT", 5000)
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
