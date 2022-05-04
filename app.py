@@ -68,13 +68,14 @@ def comment_readlDataFromSQLite():
     try:
         lock.acquire(True)
         cur.execute(data, tuple(jsonData))
+        result = cur.fetchall()
     finally:
         lock.release()
     # print(cur.fetchone())
     # for row in cur.execute('SELECT * FROM menuTABLE'):
     #     conList.append(row)
     #     print(row)
-    return jsonify(cur.fetchall())
+    return jsonify(result)
 
 @app.route('/emptyQuery', methods=['POST'])
 def emptyQuery():
@@ -83,10 +84,11 @@ def emptyQuery():
     try:
         lock.acquire(True)
         cur.execute(data)
+        result = cur.fetchall()
     finally:
         lock.release()
 
-    return jsonify(cur.fetchall())
+    return jsonify(result)
 
 if __name__ == "__main__":
     port = os.environ.get("PORT", 5000)
