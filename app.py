@@ -17,6 +17,17 @@ conList = []
 con.row_factory = dict_factory
 cur = con.cursor()
 
+# Define the lock globally
+lock = threading.Lock()
+
+def Func(host,cursor,db):
+    try:
+        lock.acquire(True)
+        res = cursor.execute('''...''',(host,))
+        # do something
+    finally:
+        lock.release()
+
 @app.route('/', methods=['GET'])
 def start():
     return "Hello world!"
@@ -53,7 +64,11 @@ def comment_readlDataFromSQLite():
     jsonData = request.get_json()
     print(tuple(jsonData))
     # print(data)
-    cur.execute(data, tuple(jsonData))
+    try:
+        lock.acquire(True)
+        cur.execute(data, tuple(jsonData))
+    finally:
+        lock.release()
     # print(cur.fetchone())
     # for row in cur.execute('SELECT * FROM menuTABLE'):
     #     conList.append(row)
@@ -64,7 +79,11 @@ def comment_readlDataFromSQLite():
 def emptyQuery():
     data = request.args.get("query")
 
-    cur.execute(data)
+    try:
+        lock.acquire(True)
+        cur.execute(data)
+    finally:
+        lock.release()
 
     return jsonify(cur.fetchall())
 
